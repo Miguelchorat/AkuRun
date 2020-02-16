@@ -1,0 +1,174 @@
+
+aku.pack.png
+size: 256,128
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+doubleJump1
+  rotate: false
+  xy: 2, 36
+  size: 33, 31
+  orig: 33, 31
+  offset: 0, 0
+  index: -1
+doubleJump2
+  rotate: false
+  xy: 208, 69
+  size: 31, 32
+  orig: 31, 32
+  offset: 0, 0
+  index: -1
+doubleJump3
+  rotate: false
+  xy: 38, 69
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+fall
+  rotate: false
+  xy: 2, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+idle1
+  rotate: false
+  xy: 209, 39
+  size: 24, 28
+  orig: 24, 28
+  offset: 0, 0
+  index: -1
+idle10
+  rotate: false
+  xy: 183, 38
+  size: 24, 29
+  orig: 24, 29
+  offset: 0, 0
+  index: -1
+idle11
+  rotate: false
+  xy: 183, 38
+  size: 24, 29
+  orig: 24, 29
+  offset: 0, 0
+  index: -1
+idle2
+  rotate: false
+  xy: 68, 5
+  size: 24, 28
+  orig: 24, 28
+  offset: 0, 0
+  index: -1
+idle3
+  rotate: false
+  xy: 68, 5
+  size: 24, 28
+  orig: 24, 28
+  offset: 0, 0
+  index: -1
+idle4
+  rotate: false
+  xy: 157, 38
+  size: 24, 29
+  orig: 24, 29
+  offset: 0, 0
+  index: -1
+idle5
+  rotate: false
+  xy: 157, 38
+  size: 24, 29
+  orig: 24, 29
+  offset: 0, 0
+  index: -1
+idle6
+  rotate: false
+  xy: 131, 37
+  size: 24, 30
+  orig: 24, 30
+  offset: 0, 0
+  index: -1
+idle7
+  rotate: false
+  xy: 131, 37
+  size: 24, 30
+  orig: 24, 30
+  offset: 0, 0
+  index: -1
+idle8
+  rotate: false
+  xy: 131, 37
+  size: 24, 30
+  orig: 24, 30
+  offset: 0, 0
+  index: -1
+idle9
+  rotate: false
+  xy: 131, 37
+  size: 24, 30
+  orig: 24, 30
+  offset: 0, 0
+  index: -1
+jump
+  rotate: false
+  xy: 72, 69
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+run1
+  rotate: false
+  xy: 2, 69
+  size: 34, 32
+  orig: 34, 32
+  offset: 0, 0
+  index: -1
+run2
+  rotate: false
+  xy: 101, 35
+  size: 28, 32
+  orig: 28, 32
+  offset: 0, 0
+  index: -1
+run3
+  rotate: false
+  xy: 36, 2
+  size: 30, 32
+  orig: 30, 32
+  offset: 0, 0
+  index: -1
+run4
+  rotate: false
+  xy: 70, 35
+  size: 29, 32
+  orig: 29, 32
+  offset: 0, 0
+  index: -1
+run5
+  rotate: false
+  xy: 106, 69
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+run6
+  rotate: false
+  xy: 37, 36
+  size: 31, 31
+  orig: 31, 31
+  offset: 0, 0
+  index: -1
+run7
+  rotate: false
+  xy: 140, 69
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+wallJump
+  rotate: false
+  xy: 174, 69
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
