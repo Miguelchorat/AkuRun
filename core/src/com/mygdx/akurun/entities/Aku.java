@@ -1,4 +1,4 @@
-package com.mygdx.akurun.entity;
+package com.mygdx.akurun.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -6,13 +6,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.akurun.util.Assets;
 import com.mygdx.akurun.util.Constants;
 
 public class Aku {
 
-    Vector2 position;
+    public Vector2 position;
     Vector2 lastFramePosition;
     Vector2 velocity;
 
@@ -22,18 +23,19 @@ public class Aku {
 
     long jumpStartTime;
     long walkStartTime;
-
+    boolean jump;
 
     public Aku(){
-        position = new Vector2(30, 10);
+        position = new Vector2(30, 75);
         lastFramePosition = new Vector2(position);
         velocity = new Vector2();
         jumpState = JumpState.FALLING;
         facing = Facing.RIGHT;
         walkState = WalkState.STANDING;
+        jump = false;
     }
 
-    public void update(float delta) {
+    public void update(float delta, DelayedRemovalArray<Platform> platforms) {
         lastFramePosition.set(position);
         velocity.y -= Constants.GRAVITY;
         position.mulAdd(velocity, delta);
@@ -47,28 +49,40 @@ public class Aku {
                 velocity.y = 0;
             }
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            moveLeft(delta);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            moveRight(delta);
-        } else {
-            walkState = WalkState.STANDING;
+
+        for (Platform platform : platforms) {
+            if (landedOnPlatform(platform)) {
+                jumpState = JumpState.GROUNDED;
+                velocity.y = 0;
+                position.y = platform.top + Constants.AKU_EYE_HEIGHT;
+            }
         }
+        moveRight(delta);
 
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             switch (jumpState) {
                 case GROUNDED:
+                    jump =false;
                     startJump();
                     break;
                 case JUMPING:
                     continueJump();
                     break;
+                case FALLING:
+                    doubleJump();
             }
         } else {
             endJump();
         }
     }
 
+    private void doubleJump(){
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && !jump) {
+
+            startJump();
+            jump =true;
+        }
+    }
     private void moveRight(float delta) {
         if (jumpState == JumpState.GROUNDED && walkState != WalkState.WALKING) {
             walkStartTime = TimeUtils.nanoTime();
@@ -78,18 +92,13 @@ public class Aku {
         position.x += delta * Constants.AKU_MOVE_SPEED;
     }
 
-    private void moveLeft(float delta) {
-        if (jumpState == JumpState.GROUNDED && walkState != WalkState.WALKING) {
-            walkStartTime = TimeUtils.nanoTime();
-        }
-        walkState = WalkState.WALKING;
-        facing = Facing.RIGHT;
-        position.x -= delta * Constants.AKU_MOVE_SPEED;
-    }
-
     private void startJump() {
+
+        if(jump)
+            jumpStartTime = TimeUtils.nanoTime()+TimeUtils.nanoTime();
+        else
+            jumpStartTime = TimeUtils.nanoTime();
         jumpState = JumpState.JUMPING;
-        jumpStartTime = TimeUtils.nanoTime();
         continueJump();
     }
 
@@ -110,15 +119,31 @@ public class Aku {
         }
     }
 
+    boolean landedOnPlatform(Platform platform) {
+        boolean leftFootIn = false;
+        boolean rightFootIn = false;
+        boolean straddle = false;
+
+        if (lastFramePosition.y - Constants.AKU_EYE_HEIGHT >= platform.top &&
+                position.y - Constants.AKU_EYE_HEIGHT < platform.top) {
+
+            float leftFoot = position.x - Constants.AKU_STANCE_WIDTH / 3;
+            float rightFoot = position.x + Constants.AKU_STANCE_WIDTH / 3;
+
+            leftFootIn = (platform.left < leftFoot && platform.right > leftFoot);
+            rightFootIn = (platform.left < rightFoot && platform.right > rightFoot);
+            straddle = (platform.left > leftFoot && platform.right < rightFoot);
+        }
+        return leftFootIn || rightFootIn || straddle;
+    }
+
     public void render(SpriteBatch batch){
         TextureRegion region = Assets.instance.akuAssets.standingRight;
 
         if (jumpState == JumpState.JUMPING) {
             region = Assets.instance.akuAssets.jumpingRight;
         } else if (jumpState == JumpState.FALLING) {
-            float walkTimeSeconds = MathUtils.nanoToSec * (TimeUtils.nanoTime() - walkStartTime);
-            region = Assets.instance.akuAssets.doubleJumpAnimation.getKeyFrame(walkTimeSeconds);
-            jumpState = JumpState.JUMPING;
+            region = Assets.instance.akuAssets.falling;
         } else if (walkState == WalkState.STANDING) {
             float idleTimeSeconds = MathUtils.nanoToSec * (TimeUtils.nanoTime() - walkStartTime);
             region = Assets.instance.akuAssets.idleAnimation.getKeyFrame(idleTimeSeconds);
@@ -150,7 +175,6 @@ public class Aku {
         JUMPING,
         FALLING,
         GROUNDED,
-        DOUBLE_JUMP
     }
 
     enum Facing {

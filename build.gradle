@@ -103,7 +103,7 @@ project(":core") {
         pack.delete()
         def atlas = new File("android/assets/aku/aku.pack.atlas")
         atlas.delete()
-        TexturePacker.process("android/assets/aku","android/assets/images","aku.pack")
+        TexturePacker.process("android/assets/aku","android/assets/atlasAku","aku.pack")
     }
 
     project.tasks.compileJava.dependsOn packTextures*/

@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
@@ -16,6 +17,7 @@ public class Assets implements Disposable, AssetErrorListener {
     public static final String TAG = Assets.class.getName();
     public static final Assets instance = new Assets();
     public AkuAssets akuAssets;
+    public PlatformAssets platformAssets;
     private AssetManager assetManager;
 
     private Assets() {
@@ -29,6 +31,7 @@ public class Assets implements Disposable, AssetErrorListener {
 
         TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS);
         akuAssets = new AkuAssets(atlas);
+        platformAssets = new PlatformAssets(atlas);
     }
 
     @Override
@@ -52,7 +55,7 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Animation doubleJumpAnimation;
 
         public AkuAssets(TextureAtlas atlas){
-            standingRight = atlas.findRegion(Constants.IDLE);
+            standingRight = atlas.findRegion(Constants.IDLE1);
             jumpingRight = atlas.findRegion(Constants.JUMP);
             falling = atlas.findRegion(Constants.FALL);
 
@@ -62,17 +65,17 @@ public class Assets implements Disposable, AssetErrorListener {
             walkingRightFrames.add(atlas.findRegion(Constants.RUN3));
             walkingRightFrames.add(atlas.findRegion(Constants.RUN4));
             walkingRightFrames.add(atlas.findRegion(Constants.RUN5));
-            walkingRightFrames.add(atlas.findRegion(Constants.RUN5));
             walkingRightFrames.add(atlas.findRegion(Constants.RUN6));
             walkingRightFrames.add(atlas.findRegion(Constants.RUN7));
-            walkingRightFrames.add(atlas.findRegion(Constants.RUN7));
-            walkingRightFrames.add(atlas.findRegion(Constants.RUN6));
-            walkingRightFrames.add(atlas.findRegion(Constants.RUN5));
-            walkingRightFrames.add(atlas.findRegion(Constants.RUN5));
+            walkingRightFrames.add(atlas.findRegion(Constants.RUN8));
+            walkingRightFrames.add(atlas.findRegion(Constants.RUN9));
+            walkingRightFrames.add(atlas.findRegion(Constants.RUN10));
+            walkingRightFrames.add(atlas.findRegion(Constants.RUN11));
+            walkingRightFrames.add(atlas.findRegion(Constants.RUN12));
             walkingRightAnimation = new Animation(Constants.RUN_LOOP_DURATION, walkingRightFrames, Animation.PlayMode.LOOP);
 
             Array<TextureAtlas.AtlasRegion> idleFrames = new Array<TextureAtlas.AtlasRegion>();
-            idleFrames.add(atlas.findRegion(Constants.IDLE));
+            idleFrames.add(atlas.findRegion(Constants.IDLE1));
             idleFrames.add(atlas.findRegion(Constants.IDLE2));
             idleFrames.add(atlas.findRegion(Constants.IDLE3));
             idleFrames.add(atlas.findRegion(Constants.IDLE4));
@@ -95,5 +98,18 @@ public class Assets implements Disposable, AssetErrorListener {
             doubleJumpAnimation = new Animation(Constants.IDLE_DURATION, doubleJumpFrames);
         }
     }
+
+    public class PlatformAssets {
+
+        public final NinePatch platformNinePatch;
+
+        public PlatformAssets(TextureAtlas atlas){
+            TextureAtlas.AtlasRegion region = atlas.findRegion(Constants.TERRAIN);
+            int edge = Constants.PLATFORM_EDGE;
+            platformNinePatch = new NinePatch(region,edge,edge,edge,edge);
+
+        }
+    }
+
 }
 
