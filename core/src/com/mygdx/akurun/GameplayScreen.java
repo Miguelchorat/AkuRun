@@ -30,7 +30,6 @@ public class GameplayScreen extends ScreenAdapter {
         batch = new SpriteBatch();
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
         chaseCam = new ChaseCam(viewport.getCamera());
-        int sourceX = 0;
         backgroundTexture = new Texture(Constants.BACKGROUND);
         backgroundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
     }

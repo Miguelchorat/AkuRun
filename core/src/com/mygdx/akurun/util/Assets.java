@@ -52,7 +52,6 @@ public class Assets implements Disposable, AssetErrorListener {
 
         public final Animation walkingRightAnimation;
         public final Animation idleAnimation;
-        public final Animation doubleJumpAnimation;
 
         public AkuAssets(TextureAtlas atlas){
             standingRight = atlas.findRegion(Constants.IDLE1);
@@ -88,14 +87,6 @@ public class Assets implements Disposable, AssetErrorListener {
             idleFrames.add(atlas.findRegion(Constants.IDLE11));
             idleAnimation = new Animation(Constants.IDLE_DURATION, idleFrames, Animation.PlayMode.LOOP);
 
-            Array<TextureAtlas.AtlasRegion> doubleJumpFrames = new Array<TextureAtlas.AtlasRegion>();
-            idleFrames.add(atlas.findRegion(Constants.DOUBLE_JUMP1));
-            idleFrames.add(atlas.findRegion(Constants.DOUBLE_JUMP1));
-            idleFrames.add(atlas.findRegion(Constants.DOUBLE_JUMP2));
-            idleFrames.add(atlas.findRegion(Constants.DOUBLE_JUMP3));
-            idleFrames.add(atlas.findRegion(Constants.DOUBLE_JUMP3));
-
-            doubleJumpAnimation = new Animation(Constants.IDLE_DURATION, doubleJumpFrames);
         }
     }
 

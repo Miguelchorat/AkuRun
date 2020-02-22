@@ -6,10 +6,10 @@ public class Constants {
 
     public static final String TEXTURE_ATLAS = "atlasAku/aku.pack.atlas";
     public static final String BACKGROUND = "background/Background.png";
-    public static final int PLATFORM_EDGE = 1;
+
+    public static final int PLATFORM_EDGE = 5;
 
     public static final float WORLD_SIZE = 192;
-    public static final float FRAME_DURATION = 0.25f;
     public static final float GRAVITY = WORLD_SIZE / 10;
     public static final float MAX_JUMP_DURATION = .2f;
     public static final float JUMP_SPEED = .8f * WORLD_SIZE;
@@ -18,8 +18,10 @@ public class Constants {
     public static final float AKU_STANCE_WIDTH = 32f;
     public static final Vector2 AKU_EYE_POSITION = new Vector2(16, 16);
     public static final float AKU_EYE_HEIGHT = 16.0f;
-    public static final float RUN_LOOP_DURATION = 0.05f;
+    public static final float RUN_LOOP_DURATION = 0.06f;
     public static final float IDLE_DURATION = 0.06f;
+    public static final float DOUBLE_JUMP_DURATION = 0.07f;
+
 
     //AKU
     public static final String JUMP = "jump";

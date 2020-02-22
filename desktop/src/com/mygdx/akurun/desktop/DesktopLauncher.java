@@ -9,11 +9,11 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.setFromDisplayMode(LwjglApplicationConfiguration.getDesktopDisplayMode());
 		//If I want to test windowed
-		boolean fullscreen = false;
+		boolean fullscreen = true;
 		if(!fullscreen ){
 			config.fullscreen = false;
-			config.width /= 1.1f;
-			config.height /= 1.1f;
+			config.width /= 1.2f;
+			config.height /= 1.2f;
 		}
 		config.resizable = false;
 		config.samples = 4;

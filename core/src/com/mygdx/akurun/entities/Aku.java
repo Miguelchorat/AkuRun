@@ -2,7 +2,9 @@ package com.mygdx.akurun.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -26,13 +28,15 @@ public class Aku {
     boolean jump;
 
     public Aku(){
-        position = new Vector2(30, 75);
+        position = new Vector2(150, 11);
         lastFramePosition = new Vector2(position);
         velocity = new Vector2();
         jumpState = JumpState.FALLING;
         facing = Facing.RIGHT;
         walkState = WalkState.STANDING;
         jump = false;
+
+
     }
 
     public void update(float delta, DelayedRemovalArray<Platform> platforms) {
@@ -78,7 +82,6 @@ public class Aku {
 
     private void doubleJump(){
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && !jump) {
-
             startJump();
             jump =true;
         }
@@ -140,16 +143,17 @@ public class Aku {
     public void render(SpriteBatch batch){
         TextureRegion region = Assets.instance.akuAssets.standingRight;
 
-        if (jumpState == JumpState.JUMPING) {
+        if (jumpState == JumpState.JUMPING ) {
             region = Assets.instance.akuAssets.jumpingRight;
         } else if (jumpState == JumpState.FALLING) {
             region = Assets.instance.akuAssets.falling;
-        } else if (walkState == WalkState.STANDING) {
+        }else if (walkState == WalkState.STANDING) {
             float idleTimeSeconds = MathUtils.nanoToSec * (TimeUtils.nanoTime() - walkStartTime);
             region = Assets.instance.akuAssets.idleAnimation.getKeyFrame(idleTimeSeconds);
         } else if (walkState == WalkState.WALKING) {
             float walkTimeSeconds = MathUtils.nanoToSec * (TimeUtils.nanoTime() - walkStartTime);
             region = Assets.instance.akuAssets.walkingRightAnimation.getKeyFrame(walkTimeSeconds);
+
         }
 
         batch.draw(

@@ -1,6 +1,5 @@
 package com.mygdx.akurun.entities;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.akurun.util.Assets;
 
@@ -28,4 +27,11 @@ public class Platform {
 
     }
 
+    public float getLeft() {
+        return left;
+    }
+
+    public void setLeft(float left) {
+        this.left = left;
+    }
 }
