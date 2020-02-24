@@ -6,21 +6,23 @@ public class Constants {
 
     public static final String TEXTURE_ATLAS = "atlasAku/aku.pack.atlas";
     public static final String BACKGROUND = "background/Background.png";
+    public static final String BACKGROUND2 = "background/Background1.png";
+    public static final String MOON = "background/Sun.png";
 
-    public static final int PLATFORM_EDGE = 5;
+    public static final int PLATFORM_EDGE = 2;
 
     public static final float WORLD_SIZE = 192;
     public static final float GRAVITY = WORLD_SIZE / 10;
     public static final float MAX_JUMP_DURATION = .2f;
     public static final float JUMP_SPEED = .8f * WORLD_SIZE;
-    public static final float AKU_MOVE_SPEED = WORLD_SIZE / 4;
-    public static final float CAM_MOVE_SPEED = WORLD_SIZE / 4;
+    public static final float AKU_MOVE_SPEED = WORLD_SIZE / 2;
     public static final float AKU_STANCE_WIDTH = 32f;
     public static final Vector2 AKU_EYE_POSITION = new Vector2(16, 16);
     public static final float AKU_EYE_HEIGHT = 16.0f;
     public static final float RUN_LOOP_DURATION = 0.06f;
     public static final float IDLE_DURATION = 0.06f;
     public static final float DOUBLE_JUMP_DURATION = 0.07f;
+    public static final float APPLE_CENTER = 10f;
 
 
     //AKU
@@ -50,10 +52,35 @@ public class Constants {
     public static final String IDLE9 = "idle9";
     public static final String IDLE10 = "idle10";
     public static final String IDLE11 = "idle11";
-
     public static final String DOUBLE_JUMP1 = "doubleJump1";
     public static final String DOUBLE_JUMP2 = "doubleJump2";
     public static final String DOUBLE_JUMP3 = "doubleJump3";
+
+    //APPLE
+    public static final String APPLE1 = "apple1";
+    public static final String APPLE2 = "apple2";
+    public static final String APPLE3 = "apple3";
+    public static final String APPLE4 = "apple4";
+    public static final String APPLE5 = "apple5";
+    public static final String APPLE6 = "apple6";
+    public static final String APPLE7 = "apple7";
+    public static final String APPLE8 = "apple8";
+    public static final String APPLE9 = "apple9";
+    public static final String APPLE10 = "apple10";
+    public static final String APPLE11 = "apple11";
+    public static final String APPLE12 = "apple12";
+    public static final String APPLE13 = "apple13";
+    public static final String APPLE14 = "apple14";
+    public static final String APPLE15 = "apple15";
+    public static final String APPLE16 = "apple16";
+    public static final String APPLE17 = "apple17";
+    public static final String COLLECTED1 = "collected1";
+    public static final String COLLECTED2 = "collected2";
+    public static final String COLLECTED3 = "collected3";
+    public static final String COLLECTED4 = "collected4";
+    public static final String COLLECTED5 = "collected5";
+    public static final String COLLECTED6 = "collected6";
+
     public static final String TERRAIN = "terrain";
 
 }

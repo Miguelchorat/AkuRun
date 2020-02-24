@@ -9,15 +9,14 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.setFromDisplayMode(LwjglApplicationConfiguration.getDesktopDisplayMode());
 		//If I want to test windowed
-		boolean fullscreen = true;
+		boolean fullscreen = false;
 		if(!fullscreen ){
 			config.fullscreen = false;
 			config.width /= 1.2f;
 			config.height /= 1.2f;
 		}
 		config.resizable = false;
-		config.samples = 4;
-		config.vSyncEnabled = true;
+		config.samples = 1;
 		new LwjglApplication(new AkuRunGame(), config);
 	}
 }

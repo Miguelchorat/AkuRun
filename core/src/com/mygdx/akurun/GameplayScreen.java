@@ -21,17 +21,20 @@ public class GameplayScreen extends ScreenAdapter {
     private ChaseCam chaseCam;
     int sourceX;
     private Texture backgroundTexture;
+    private Texture moon;
 
     @Override
     public void show () {
+
         AssetManager am = new AssetManager();
         Assets.instance.init(am);
         level = new Level();
         batch = new SpriteBatch();
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
-        chaseCam = new ChaseCam(viewport.getCamera());
+        chaseCam = new ChaseCam(viewport.getCamera(),level.aku);
         backgroundTexture = new Texture(Constants.BACKGROUND);
         backgroundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        moon = new Texture(Constants.MOON);
     }
 
     @Override
@@ -46,6 +49,7 @@ public class GameplayScreen extends ScreenAdapter {
 
     @Override
     public void render (float delta) {
+
         level.update(delta);
         viewport.apply();
         chaseCam.update(delta);
@@ -54,8 +58,10 @@ public class GameplayScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
+        batch.draw(moon,chaseCam.getCamera().position.x+55,135,45,45);
         batch.draw(backgroundTexture,chaseCam.getCamera().position.x-256,0,512,192,sourceX,0,backgroundTexture.getWidth()+backgroundTexture.getWidth(),backgroundTexture.getHeight(),false,false);
         batch.end();
+
         level.render(batch);
     }
 }

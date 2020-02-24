@@ -2,11 +2,11 @@ package com.mygdx.akurun.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -15,35 +15,46 @@ import com.mygdx.akurun.util.Constants;
 
 public class Aku {
 
-    public Vector2 position;
-    Vector2 lastFramePosition;
-    Vector2 velocity;
+    public Vector2 position; //Posicion del personaje
+    Vector2 lastFramePosition; //Ultimo sitio donde estaba ubicado
+    Vector2 velocity; //Velocidad a la que se mueve
 
-    Facing facing;
-    JumpState jumpState;
-    WalkState walkState;
+    JumpState jumpState; //Diferentes estados de salto que tiene
 
-    long jumpStartTime;
-    long walkStartTime;
-    boolean jump;
+    long jumpStartTime; //Tiempo en el que salto
+    long runStartTime; //Tiempo en el que empezo a correr
+    boolean jump; //Comprobar si puede realizar otro salto adicional
 
-    public Aku(){
-        position = new Vector2(150, 11);
+    public Aku(Vector2 position){
+        this.position = new Vector2(position.x, position.y);
+        init();
+    }
+
+    public void init(){
         lastFramePosition = new Vector2(position);
         velocity = new Vector2();
         jumpState = JumpState.FALLING;
-        facing = Facing.RIGHT;
-        walkState = WalkState.STANDING;
         jump = false;
-
-
     }
 
-    public void update(float delta, DelayedRemovalArray<Platform> platforms) {
+    public void update(float delta, DelayedRemovalArray<Platform> platforms,DelayedRemovalArray<Apple> apples) {
         lastFramePosition.set(position);
         velocity.y -= Constants.GRAVITY;
         position.mulAdd(velocity, delta);
 
+        /*
+            Hitbox del personaje
+         */
+        Rectangle akuBounds = new Rectangle(
+                position.x -Constants.AKU_STANCE_WIDTH/4 ,
+                position.y -  Constants.AKU_EYE_HEIGHT,
+                Constants.AKU_STANCE_WIDTH - Constants.AKU_STANCE_WIDTH,
+                Constants.AKU_EYE_HEIGHT
+        );
+
+        /*
+            Estado del salto
+         */
         if (jumpState != JumpState.JUMPING) {
             jumpState = JumpState.FALLING;
 
@@ -54,6 +65,14 @@ public class Aku {
             }
         }
 
+        /*
+            Movimimiento permanente del personaje hacia la derecha
+         */
+        moveRight(delta);
+
+        /*
+            Controlar si el personaje ha pisado una plataforma
+         */
         for (Platform platform : platforms) {
             if (landedOnPlatform(platform)) {
                 jumpState = JumpState.GROUNDED;
@@ -61,8 +80,25 @@ public class Aku {
                 position.y = platform.top + Constants.AKU_EYE_HEIGHT;
             }
         }
-        moveRight(delta);
 
+        /*
+            Controlar si el personaje ha tocado una manzana
+         */
+        for (int i=0; i < apples.size ; i++){
+            Rectangle applesBounds = new Rectangle(
+                    apples.get(i).position.x - Constants.APPLE_CENTER,
+                    apples.get(i).position.y -  Constants.APPLE_CENTER,
+                    Assets.instance.appleAssets.appleAnimation.getKeyFrame(0).getRegionWidth(),
+                    Assets.instance.appleAssets.appleAnimation.getKeyFrame(0).getRegionHeight()
+            );
+            if(akuBounds.overlaps(applesBounds)) {
+                apples.removeIndex(i);
+            }
+        }
+
+        /*
+            Controlar si el usuario ha presionado la acción para el salto
+         */
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             switch (jumpState) {
                 case GROUNDED:
@@ -78,23 +114,32 @@ public class Aku {
         } else {
             endJump();
         }
+
     }
 
+    /*
+        Controla si puede realizar un doble salto si no lo ha realizado antes
+     */
     private void doubleJump(){
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && !jump) {
             startJump();
             jump =true;
         }
     }
+
+    /*
+        Mueve el personaje permanentemente hacia la derecha
+     */
     private void moveRight(float delta) {
-        if (jumpState == JumpState.GROUNDED && walkState != WalkState.WALKING) {
-            walkStartTime = TimeUtils.nanoTime();
+        if (jumpState == JumpState.GROUNDED) {
+            runStartTime = TimeUtils.nanoTime();
         }
-        walkState = WalkState.WALKING;
-        facing = Facing.RIGHT;
         position.x += delta * Constants.AKU_MOVE_SPEED;
     }
 
+    /*
+        Comienza la acción de un salto
+     */
     private void startJump() {
 
         if(jump)
@@ -105,6 +150,9 @@ public class Aku {
         continueJump();
     }
 
+    /*
+        Continua el salto
+     */
     private void continueJump() {
         if (jumpState == JumpState.JUMPING) {
             float jumpDuration = MathUtils.nanoToSec * (TimeUtils.nanoTime() - jumpStartTime);
@@ -116,12 +164,18 @@ public class Aku {
         }
     }
 
+    /*
+        Cambia el estado del salto a cayendo
+     */
     private void endJump() {
         if (jumpState == JumpState.JUMPING) {
             jumpState = JumpState.FALLING;
         }
     }
 
+    /*
+        Metodo encargado de comprobar si el personaje esta sobre la plataforma indicada
+     */
     boolean landedOnPlatform(Platform platform) {
         boolean leftFootIn = false;
         boolean rightFootIn = false;
@@ -141,21 +195,18 @@ public class Aku {
     }
 
     public void render(SpriteBatch batch){
-        TextureRegion region = Assets.instance.akuAssets.standingRight;
 
+        float runningSeconds = MathUtils.nanoToSec * (TimeUtils.nanoTime() - runStartTime);
+        TextureRegion region = Assets.instance.akuAssets.runningAnimation.getKeyFrame(runningSeconds);
+
+        /*
+            Comprobación del estado del salto del personaje para dibujar la animación
+         */
         if (jumpState == JumpState.JUMPING ) {
             region = Assets.instance.akuAssets.jumpingRight;
         } else if (jumpState == JumpState.FALLING) {
             region = Assets.instance.akuAssets.falling;
-        }else if (walkState == WalkState.STANDING) {
-            float idleTimeSeconds = MathUtils.nanoToSec * (TimeUtils.nanoTime() - walkStartTime);
-            region = Assets.instance.akuAssets.idleAnimation.getKeyFrame(idleTimeSeconds);
-        } else if (walkState == WalkState.WALKING) {
-            float walkTimeSeconds = MathUtils.nanoToSec * (TimeUtils.nanoTime() - walkStartTime);
-            region = Assets.instance.akuAssets.walkingRightAnimation.getKeyFrame(walkTimeSeconds);
-
         }
-
         batch.draw(
                 region.getTexture(),
                 position.x - Constants.AKU_EYE_POSITION.x,
@@ -173,20 +224,12 @@ public class Aku {
                 region.getRegionHeight(),
                 false,
                 false);
+
     }
 
     enum JumpState {
         JUMPING,
         FALLING,
         GROUNDED,
-    }
-
-    enum Facing {
-        RIGHT
-    }
-
-    enum WalkState {
-        STANDING,
-        WALKING
     }
 }

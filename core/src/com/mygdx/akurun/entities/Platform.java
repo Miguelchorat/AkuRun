@@ -30,8 +30,4 @@ public class Platform {
     public float getLeft() {
         return left;
     }
-
-    public void setLeft(float left) {
-        this.left = left;
-    }
 }
