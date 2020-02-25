@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.mygdx.akurun.Level;
 import com.mygdx.akurun.util.Assets;
 import com.mygdx.akurun.util.Constants;
 
@@ -24,17 +25,22 @@ public class Aku {
     long jumpStartTime; //Tiempo en el que salto
     long runStartTime; //Tiempo en el que empezo a correr
     boolean jump; //Comprobar si puede realizar otro salto adicional
+    boolean appearing; //Comprobar si ha aparecido
+    Level level; //Nivel de partida el que esta jugando
 
-    public Aku(Vector2 position){
+    public Aku(Vector2 position,Level level){
         this.position = new Vector2(position.x, position.y);
+        this.level = level;
         init();
     }
 
     public void init(){
+
         lastFramePosition = new Vector2(position);
         velocity = new Vector2();
         jumpState = JumpState.FALLING;
         jump = false;
+        appearing = false;
     }
 
     public void update(float delta, DelayedRemovalArray<Platform> platforms,DelayedRemovalArray<Apple> apples) {

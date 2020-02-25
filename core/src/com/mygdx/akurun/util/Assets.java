@@ -77,8 +77,8 @@ public class Assets implements Disposable, AssetErrorListener {
             collectedFrames.add(atlas.findRegion(Constants.COLLECTED4));
             collectedFrames.add(atlas.findRegion(Constants.COLLECTED5));
             collectedFrames.add(atlas.findRegion(Constants.COLLECTED6));
-
             collectedAnimation = new Animation(0.1f, collectedFrames, Animation.PlayMode.NORMAL);
+
         }
     }
 
@@ -89,7 +89,8 @@ public class Assets implements Disposable, AssetErrorListener {
         public final TextureAtlas.AtlasRegion falling;
 
         public final Animation runningAnimation;
-        public final Animation idleAnimation;
+        //public final Animation idleAnimation;
+        public final Animation appearingAnimation;
 
         public AkuAssets(TextureAtlas atlas){
             standingRight = atlas.findRegion(Constants.IDLE1);
@@ -111,7 +112,7 @@ public class Assets implements Disposable, AssetErrorListener {
             runningFrames.add(atlas.findRegion(Constants.RUN12));
             runningAnimation = new Animation(Constants.RUN_LOOP_DURATION, runningFrames, Animation.PlayMode.LOOP);
 
-            Array<TextureAtlas.AtlasRegion> idleFrames = new Array<TextureAtlas.AtlasRegion>();
+            /*Array<TextureAtlas.AtlasRegion> idleFrames = new Array<TextureAtlas.AtlasRegion>();
             idleFrames.add(atlas.findRegion(Constants.IDLE1));
             idleFrames.add(atlas.findRegion(Constants.IDLE2));
             idleFrames.add(atlas.findRegion(Constants.IDLE3));
@@ -123,8 +124,18 @@ public class Assets implements Disposable, AssetErrorListener {
             idleFrames.add(atlas.findRegion(Constants.IDLE9));
             idleFrames.add(atlas.findRegion(Constants.IDLE10));
             idleFrames.add(atlas.findRegion(Constants.IDLE11));
-            idleAnimation = new Animation(Constants.IDLE_DURATION, idleFrames, Animation.PlayMode.LOOP);
+            idleAnimation = new Animation(Constants.IDLE_DURATION, idleFrames, Animation.PlayMode.LOOP);*/
 
+            Array<TextureAtlas.AtlasRegion> appearingFrames = new Array<TextureAtlas.AtlasRegion>();
+            appearingFrames.add(atlas.findRegion(Constants.APPEARING8));
+            appearingFrames.add(atlas.findRegion(Constants.APPEARING7));
+            appearingFrames.add(atlas.findRegion(Constants.APPEARING6));
+            appearingFrames.add(atlas.findRegion(Constants.APPEARING5));
+            appearingFrames.add(atlas.findRegion(Constants.APPEARING4));
+            appearingFrames.add(atlas.findRegion(Constants.APPEARING3));
+            appearingFrames.add(atlas.findRegion(Constants.APPEARING2));
+            appearingFrames.add(atlas.findRegion(Constants.APPEARING1));
+            appearingAnimation = new Animation(Constants.RUN_LOOP_DURATION,appearingFrames, Animation.PlayMode.LOOP);
         }
     }
 

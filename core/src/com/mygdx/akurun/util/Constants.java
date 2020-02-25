@@ -8,7 +8,7 @@ public class Constants {
     public static final String BACKGROUND = "background/Background.png";
     public static final String BACKGROUND2 = "background/Background1.png";
     public static final String MOON = "background/Sun.png";
-
+    public static final String SPIKE = "background/spike.png";
     public static final int PLATFORM_EDGE = 2;
 
     public static final float WORLD_SIZE = 192;
@@ -39,7 +39,6 @@ public class Constants {
     public static final String RUN10 = "run10";
     public static final String RUN11 = "run11";
     public static final String RUN12 = "run12";
-    public static final String WALL_JUMP = "wallJump";
     public static final String FALL = "fall";
     public static final String IDLE1 = "idle1";
     public static final String IDLE2 = "idle2";
@@ -55,6 +54,14 @@ public class Constants {
     public static final String DOUBLE_JUMP1 = "doubleJump1";
     public static final String DOUBLE_JUMP2 = "doubleJump2";
     public static final String DOUBLE_JUMP3 = "doubleJump3";
+    public static final String APPEARING1 = "appearing1";
+    public static final String APPEARING2 = "appearing2";
+    public static final String APPEARING3 = "appearing3";
+    public static final String APPEARING4 = "appearing4";
+    public static final String APPEARING5 = "appearing5";
+    public static final String APPEARING6 = "appearing6";
+    public static final String APPEARING7 = "appearing7";
+    public static final String APPEARING8 = "appearing8";
 
     //APPLE
     public static final String APPLE1 = "apple1";
