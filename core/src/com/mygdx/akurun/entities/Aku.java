@@ -62,7 +62,9 @@ public class Aku {
             Estado del salto
          */
         if (jumpState != JumpState.JUMPING) {
-            jumpState = JumpState.FALLING;
+            if (jumpState != JumpState.RECOILING) {
+                jumpState = JumpState.FALLING;
+            }
 
             if (position.y - Constants.AKU_EYE_HEIGHT < 0) {
                 jumpState = JumpState.GROUNDED;
@@ -74,8 +76,9 @@ public class Aku {
         /*
             Movimimiento permanente del personaje hacia la derecha
          */
-        moveRight(delta);
-
+        if (jumpState != JumpState.RECOILING) {
+            moveRight(delta);
+        }
         /*
             Controlar si el personaje ha pisado una plataforma
          */
@@ -83,6 +86,7 @@ public class Aku {
             if (landedOnPlatform(platform)) {
                 jumpState = JumpState.GROUNDED;
                 velocity.y = 0;
+                velocity.x = 0;
                 position.y = platform.top + Constants.AKU_EYE_HEIGHT;
             }
         }
@@ -98,10 +102,26 @@ public class Aku {
                     Assets.instance.appleAssets.appleAnimation.getKeyFrame(0).getRegionHeight()
             );
             if(akuBounds.overlaps(applesBounds)) {
+                level.spawnCollected(apples.get(i).position);
                 apples.removeIndex(i);
             }
         }
 
+        for (Enemy enemy : level.getEnemys()){
+            Rectangle enemyBounds = new Rectangle(
+                    enemy.position.x - Constants.ENEMY_SIZE,
+                    enemy.position.y - Constants.ENEMY_SIZE,
+                    Constants.ENEMY_SIZE,
+                    Constants.ENEMY_SIZE
+            );
+            if (akuBounds.overlaps(enemyBounds)) {
+                if (position.x < enemy.position.x) {
+                    recoilFromEnemy(0);
+                } else {
+                    recoilFromEnemy(1);
+                }
+            }
+        }
         /*
             Controlar si el usuario ha presionado la acción para el salto
          */
@@ -233,9 +253,22 @@ public class Aku {
 
     }
 
+    private void recoilFromEnemy(int direction) {
+
+        jumpState = JumpState.RECOILING;
+        velocity.y = Constants.KNOCKBACK_VELOCITY.y;
+
+        if (direction == 0) {
+            velocity.x = -Constants.KNOCKBACK_VELOCITY.x;
+        } else {
+            velocity.x = Constants.KNOCKBACK_VELOCITY.x;
+        }
+    }
+
     enum JumpState {
         JUMPING,
         FALLING,
         GROUNDED,
+        RECOILING
     }
 }

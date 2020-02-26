@@ -10,8 +10,8 @@ import com.mygdx.akurun.util.Constants;
 
 public class Collected{
 
-    private final Vector2 position; //Posicion de la recolecta de la manzana
-    private final long startTime; //Comienzo de la animacion
+    public Vector2 position; //Posicion de la recolecta de la manzana
+    private long startTime; //Comienzo de la animacion
 
     public Collected(Vector2 position) {
         this.position = position;
@@ -19,11 +19,12 @@ public class Collected{
     }
 
     public void render(SpriteBatch batch) {
-        TextureRegion region = Assets.instance.appleAssets.collectedAnimation.getKeyFrame(startTime);
+        float elapsedTime = MathUtils.nanoToSec * (TimeUtils.nanoTime() - startTime);
+        TextureRegion region = Assets.instance.appleAssets.collectedAnimation.getKeyFrame(elapsedTime);
         batch.draw(
                 region.getTexture(),
-                position.x - Constants.APPLE_CENTER,
-                position.y - Constants.APPLE_CENTER,
+                position.x,
+                position.y,
                 0,
                 0,
                 region.getRegionWidth(),

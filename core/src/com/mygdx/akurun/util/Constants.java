@@ -4,10 +4,12 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Constants {
 
-    public static final String TEXTURE_ATLAS = "atlasAku/aku.pack.atlas";
+    public static final String TEXTURE_ATLAS = "atlas/aku.pack.atlas";
     public static final String BACKGROUND = "background/Background.png";
-    public static final String BACKGROUND2 = "background/Background1.png";
-    public static final String MOON = "background/Sun.png";
+    public static final String BACKGROUND2 = "background/Background2.png";
+    public static final String BACKGROUND3 = "background/Background3.png";
+    public static final String BACKGROUND4 = "background/Background4.png";
+    public static final String SUN = "background/Sun.png";
     public static final String SPIKE = "background/spike.png";
     public static final int PLATFORM_EDGE = 2;
 
@@ -23,7 +25,7 @@ public class Constants {
     public static final float IDLE_DURATION = 0.06f;
     public static final float DOUBLE_JUMP_DURATION = 0.07f;
     public static final float APPLE_CENTER = 10f;
-
+    public static final Vector2 KNOCKBACK_VELOCITY = new Vector2(200, 200);
 
     //AKU
     public static final String JUMP = "jump";
@@ -88,6 +90,17 @@ public class Constants {
     public static final String COLLECTED5 = "collected5";
     public static final String COLLECTED6 = "collected6";
 
+    //ENEMY
+    public static final String ENEMY_IDLE1 = "enemy_idle1";
+    public static final String ENEMY_IDLE2 = "enemy_idle2";
+    public static final String ENEMY_IDLE3 = "enemy_idle3";
+    public static final String ENEMY_IDLE4 = "enemy_idle4";
+    public static final String ENEMY_IDLE5 = "enemy_idle5";
+    public static final String ENEMY_IDLE6 = "enemy_idle6";
+    public static final String ENEMY_IDLE7 = "enemy_idle7";
+    public static final String ENEMY_IDLE8 = "enemy_idle8";
+    public static final float ENEMY_MOVEMENT_SPEED = WORLD_SIZE / 5;
+    public static final int ENEMY_SIZE = 28;
     public static final String TERRAIN = "terrain";
 
 }

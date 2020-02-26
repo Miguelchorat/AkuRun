@@ -10,15 +10,16 @@ import com.mygdx.akurun.util.Assets;
 public class Apple {
 
     public Vector2 position; //Posicion de la manzana
+    private long startTime;
 
     public Apple(int x,int y){
         position = new Vector2(x, y);
+        startTime = TimeUtils.nanoTime();
     }
 
     public void render(SpriteBatch batch) {
-
-        float seconds = MathUtils.nanoToSec* TimeUtils.nanoTime();
-        TextureRegion region = Assets.instance.appleAssets.appleAnimation.getKeyFrame(seconds,false);
+        float elapsedTime = MathUtils.nanoToSec * (TimeUtils.nanoTime() - startTime);
+        TextureRegion region = Assets.instance.appleAssets.appleAnimation.getKeyFrame(elapsedTime);
 
         batch.draw(
                 region.getTexture(),

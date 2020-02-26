@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
+import static com.mygdx.akurun.util.Constants.RUN_LOOP_DURATION;
+
 public class Assets implements Disposable, AssetErrorListener {
 
     public static final String TAG = Assets.class.getName();
@@ -17,6 +19,7 @@ public class Assets implements Disposable, AssetErrorListener {
     public AkuAssets akuAssets;
     public PlatformAssets platformAssets;
     public AppleAssets appleAssets;
+    public EnemyAssets enemyAssets;
     private AssetManager assetManager;
 
     private Assets() {
@@ -32,6 +35,7 @@ public class Assets implements Disposable, AssetErrorListener {
         akuAssets = new AkuAssets(atlas);
         platformAssets = new PlatformAssets(atlas);
         appleAssets = new AppleAssets(atlas);
+        enemyAssets = new EnemyAssets(atlas);
     }
 
     @Override
@@ -68,7 +72,7 @@ public class Assets implements Disposable, AssetErrorListener {
             appleFrames.add(atlas.findRegion(Constants.APPLE15));
             appleFrames.add(atlas.findRegion(Constants.APPLE16));
             appleFrames.add(atlas.findRegion(Constants.APPLE17));
-            appleAnimation = new Animation(Constants.RUN_LOOP_DURATION, appleFrames, Animation.PlayMode.LOOP);
+            appleAnimation = new Animation(RUN_LOOP_DURATION, appleFrames, Animation.PlayMode.LOOP);
 
             Array<TextureAtlas.AtlasRegion> collectedFrames = new Array<TextureAtlas.AtlasRegion>();
             collectedFrames.add(atlas.findRegion(Constants.COLLECTED1));
@@ -77,7 +81,7 @@ public class Assets implements Disposable, AssetErrorListener {
             collectedFrames.add(atlas.findRegion(Constants.COLLECTED4));
             collectedFrames.add(atlas.findRegion(Constants.COLLECTED5));
             collectedFrames.add(atlas.findRegion(Constants.COLLECTED6));
-            collectedAnimation = new Animation(0.1f, collectedFrames, Animation.PlayMode.NORMAL);
+            collectedAnimation = new Animation(RUN_LOOP_DURATION, collectedFrames, Animation.PlayMode.NORMAL);
 
         }
     }
@@ -110,7 +114,7 @@ public class Assets implements Disposable, AssetErrorListener {
             runningFrames.add(atlas.findRegion(Constants.RUN10));
             runningFrames.add(atlas.findRegion(Constants.RUN11));
             runningFrames.add(atlas.findRegion(Constants.RUN12));
-            runningAnimation = new Animation(Constants.RUN_LOOP_DURATION, runningFrames, Animation.PlayMode.LOOP);
+            runningAnimation = new Animation(RUN_LOOP_DURATION, runningFrames, Animation.PlayMode.LOOP);
 
             /*Array<TextureAtlas.AtlasRegion> idleFrames = new Array<TextureAtlas.AtlasRegion>();
             idleFrames.add(atlas.findRegion(Constants.IDLE1));
@@ -135,7 +139,7 @@ public class Assets implements Disposable, AssetErrorListener {
             appearingFrames.add(atlas.findRegion(Constants.APPEARING3));
             appearingFrames.add(atlas.findRegion(Constants.APPEARING2));
             appearingFrames.add(atlas.findRegion(Constants.APPEARING1));
-            appearingAnimation = new Animation(Constants.RUN_LOOP_DURATION,appearingFrames, Animation.PlayMode.LOOP);
+            appearingAnimation = new Animation(RUN_LOOP_DURATION,appearingFrames, Animation.PlayMode.LOOP);
         }
     }
 
@@ -147,6 +151,24 @@ public class Assets implements Disposable, AssetErrorListener {
             TextureAtlas.AtlasRegion region = atlas.findRegion(Constants.TERRAIN);
             int edge = Constants.PLATFORM_EDGE;
             platformNinePatch = new NinePatch(region,edge,edge,edge,edge);
+
+        }
+    }
+
+    public class EnemyAssets {
+        public final Animation runningAnimation;
+
+        public EnemyAssets(TextureAtlas atlas){
+            Array<TextureAtlas.AtlasRegion> runningFrames = new Array<TextureAtlas.AtlasRegion>();
+            runningFrames.add(atlas.findRegion(Constants.ENEMY_IDLE1));
+            runningFrames.add(atlas.findRegion(Constants.ENEMY_IDLE2));
+            runningFrames.add(atlas.findRegion(Constants.ENEMY_IDLE3));
+            runningFrames.add(atlas.findRegion(Constants.ENEMY_IDLE4));
+            runningFrames.add(atlas.findRegion(Constants.ENEMY_IDLE5));
+            runningFrames.add(atlas.findRegion(Constants.ENEMY_IDLE6));
+            runningFrames.add(atlas.findRegion(Constants.ENEMY_IDLE7));
+            runningFrames.add(atlas.findRegion(Constants.ENEMY_IDLE8));
+            runningAnimation = new Animation(RUN_LOOP_DURATION, runningFrames, Animation.PlayMode.LOOP);
 
         }
     }
