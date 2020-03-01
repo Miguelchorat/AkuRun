@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Constants {
 
+    //URL
     public static final String TEXTURE_ATLAS = "atlas/aku.pack.atlas";
     public static final String BACKGROUND = "background/Background.png";
     public static final String BACKGROUND2 = "background/Background2.png";
@@ -11,8 +12,9 @@ public class Constants {
     public static final String BACKGROUND4 = "background/Background4.png";
     public static final String SUN = "background/Sun.png";
     public static final String SPIKE = "background/spike.png";
-    public static final int PLATFORM_EDGE = 2;
 
+    //WORLD
+    public static final int PLATFORM_EDGE = 2;
     public static final float WORLD_SIZE = 192;
     public static final float GRAVITY = WORLD_SIZE / 10;
     public static final float MAX_JUMP_DURATION = .2f;
@@ -26,6 +28,8 @@ public class Constants {
     public static final float DOUBLE_JUMP_DURATION = 0.07f;
     public static final float APPLE_CENTER = 10f;
     public static final Vector2 KNOCKBACK_VELOCITY = new Vector2(200, 200);
+    public static final int SPIKE_SIZE=20;
+    public static final String TERRAIN = "terrain";
 
     //AKU
     public static final String JUMP = "jump";
@@ -101,7 +105,22 @@ public class Constants {
     public static final String ENEMY_IDLE8 = "enemy_idle8";
     public static final float ENEMY_MOVEMENT_SPEED = WORLD_SIZE / 5;
     public static final int ENEMY_SIZE = 28;
-    public static final String TERRAIN = "terrain";
+
+    //HUD
+    public static final float HUD_VIEWPORT_SIZE = 480;
+    public static final float HUD_MARGIN = 40;
+    public static final float SCCORE_WIDTH = 160;
+    public static final float SCCORE_HEIGHT = 60;
+    public static final String APPLE_HUD = "menu/apple1.png";
+    public static final String RESTART_HUD = "menu/Restart.png";
+    public static final String PLAY_HUD = "menu/Play.png";
+    public static final String EXIT_HUD = "menu/exit.png";
+    public static final String PAUSE_HUD = "menu/Pause.png";
+    public static final String SCORE_HUD = "menu/score.png";
+    public static final String FONT_HUD = "font/font.otf";
+    public static final String WINDOW_HUD = "menu/window.png";
+    public static final String HEADER_HUD = "menu/header.png";
+    public static final String TABLE_HUD = "menu/table.png";
 
 }
 

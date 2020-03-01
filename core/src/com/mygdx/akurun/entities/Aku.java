@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -29,9 +28,11 @@ public class Aku {
     Level level; //Nivel de partida el que esta jugando
 
     public Aku(Vector2 position,Level level){
+
         this.position = new Vector2(position.x, position.y);
         this.level = level;
         init();
+
     }
 
     public void init(){
@@ -102,6 +103,7 @@ public class Aku {
                     Assets.instance.appleAssets.appleAnimation.getKeyFrame(0).getRegionHeight()
             );
             if(akuBounds.overlaps(applesBounds)) {
+                level.point();
                 level.spawnCollected(apples.get(i).position);
                 apples.removeIndex(i);
             }
@@ -122,10 +124,18 @@ public class Aku {
                 }
             }
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.R)) {
+            level.setGameOver(true);
+        }
+
+        if(position.y<Constants.SPIKE_SIZE){
+            level.setGameOver(true);
+        }
+
         /*
             Controlar si el usuario ha presionado la acción para el salto
          */
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.isTouched()) {
             switch (jumpState) {
                 case GROUNDED:
                     jump =false;
@@ -147,7 +157,7 @@ public class Aku {
         Controla si puede realizar un doble salto si no lo ha realizado antes
      */
     private void doubleJump(){
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && !jump) {
+        if ((Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.isTouched()) && !jump) {
             startJump();
             jump =true;
         }
@@ -198,11 +208,11 @@ public class Aku {
             jumpState = JumpState.FALLING;
         }
     }
-
     /*
-        Metodo encargado de comprobar si el personaje esta sobre la plataforma indicada
-     */
+            Metodo encargado de comprobar si el personaje esta sobre la plataforma indicada
+         */
     boolean landedOnPlatform(Platform platform) {
+
         boolean leftFootIn = false;
         boolean rightFootIn = false;
         boolean straddle = false;
@@ -230,7 +240,7 @@ public class Aku {
          */
         if (jumpState == JumpState.JUMPING ) {
             region = Assets.instance.akuAssets.jumpingRight;
-        } else if (jumpState == JumpState.FALLING) {
+        } else if (jumpState == JumpState.FALLING || jumpState == JumpState.RECOILING) {
             region = Assets.instance.akuAssets.falling;
         }
         batch.draw(

@@ -5,11 +5,13 @@ import com.mygdx.akurun.entities.Aku;
 
 public class ChaseCam {
 
-    private Camera camera;
-    private Aku aku;
+    public Camera camera;
+    public Aku aku;
 
-    public ChaseCam(Camera camera,Aku aku){
-        this.camera = camera;
+    public ChaseCam(){
+    }
+
+    public void setAku(Aku aku) {
         this.aku = aku;
     }
 
@@ -17,10 +19,6 @@ public class ChaseCam {
 
         camera.position.x=aku.position.x+115;
 
-    }
-
-    public Camera getCamera() {
-        return camera;
     }
 
 }

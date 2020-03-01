@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.akurun.entities.Aku;
 import com.mygdx.akurun.entities.Apple;
 import com.mygdx.akurun.entities.Background;
@@ -17,7 +19,9 @@ import com.mygdx.akurun.util.Constants;
 
 public class Level {
 
-    Aku aku;
+    ChaseCam chaseCam;
+    public Viewport viewport;
+    private Aku aku;
     Background background;
     DelayedRemovalArray<Platform> platforms;
     DelayedRemovalArray<Apple> apples;
@@ -30,19 +34,24 @@ public class Level {
     int height;
     int newSpike;
     int valorAux;
-    boolean enemyActive;
+    private boolean enemyActive;
+    private boolean gameOver;
+    private int score;
+    private int spikeCount;
 
     public Level(){
         init();
     }
 
     public void init() {
-        aku = new Aku(new Vector2(50,100),this);
+        viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
+        score = 0;
+        aku = new Aku(new Vector2(170,200),this);
         enemyActive=false;
         background = new Background(aku);
         valorAux = 0;
         newSpike = 0;
-        left = 170;
+        left = 0;
         top = 0;
         width = 0;
         height = 25;
@@ -51,23 +60,29 @@ public class Level {
         collecteds = new DelayedRemovalArray<Collected>();
         enemys = new DelayedRemovalArray<Enemy>();
         spikes = new DelayedRemovalArray<Spike>(false,16);
-        platforms.add(new Platform(0,75,250,25));
+        spikeCount = 0;
+        gameOver = false;
     }
 
-    public void generator(){
+    public void generator() {
 
-        left +=MathUtils.random(175,190);
-        top=MathUtils.random(70,95);
-        width=MathUtils.random(75,105);
-        newSpike+=18;
-        spikes.add(new Spike(newSpike,0));
+        left += MathUtils.random(175, 185);
+        top = MathUtils.random(50, 75);
+        width = MathUtils.random(75, 105);
+
+        if (spikeCount < 6){
+            spikes.add(new Spike(newSpike, 0));
+             newSpike += 128;
+             spikeCount++;
+        }
+
         Platform newPlatform = new Platform(left,top,width,height);
         Apple apple = new Apple((left-(int)Constants.APPLE_CENTER/2)+(width/2),top);
         platforms.add(newPlatform);
         apples.add(apple);
 
-        valorAux = MathUtils.random(0,52);
-        if(valorAux==1 && !enemyActive){
+        valorAux = MathUtils.random(0,(int)Constants.WORLD_SIZE/2);
+        if(valorAux==1 && !enemyActive ){
             enemys.add(new Enemy(new Vector2(aku.position.x+Constants.WORLD_SIZE*4,95),aku));
             enemyActive=true;
         }
@@ -83,33 +98,35 @@ public class Level {
         spikes.begin();
         collecteds.begin();
         enemys.begin();
+
         for (int i = 0; i < spikes.size; i++) {
-            if (spikes.get(i).position.x < aku.position.x - Constants.WORLD_SIZE*3) {
+            if (spikes.get(i).position.x < aku.position.x - Constants.WORLD_SIZE*2) {
                 spikes.removeIndex(i);
+                spikeCount--;
             }
         }
         for (int i = 0; i < platforms.size; i++) {
-            if (platforms.get(i).getLeft() < aku.position.x - Constants.WORLD_SIZE*3) {
+            if (platforms.get(i).getLeft() < aku.position.x - Constants.WORLD_SIZE*2) {
                 platforms.removeIndex(i);
             }
 
         }for (int i = 0; i < apples.size; i++) {
-            if (apples.get(i).position.x < aku.position.x - Constants.WORLD_SIZE*3) {
+            if (apples.get(i).position.x < aku.position.x - Constants.WORLD_SIZE) {
                 apples.removeIndex(i);
             }
         }
 
         for (int i = 0 ; i<collecteds.size ; i++){
-            if ((collecteds.get(i).position.x < aku.position.x - Constants.WORLD_SIZE*3) || collecteds.get(i).isFinished()) {
+            if ((collecteds.get(i).position.x < aku.position.x - Constants.WORLD_SIZE) || collecteds.get(i).isFinished()) {
                 collecteds.removeIndex(i);
             }
         }
 
         for (int i = 0 ; i<enemys.size ; i++){
             enemys.get(i).update(delta);
-            if (enemys.get(i).position.x < aku.position.x - Constants.WORLD_SIZE) {
+            if (enemys.get(i).position.x < aku.position.x - Constants.WORLD_SIZE/2) {
                 enemys.removeIndex(i);
-                enemyActive=false;
+                enemyActive = false;
             }
         }
         enemys.end();
@@ -121,6 +138,8 @@ public class Level {
     }
 
     public void render(SpriteBatch batch) {
+        viewport.apply();
+        batch.setProjectionMatrix(viewport.getCamera().combined);
         background.render(batch);
         batch.begin();
 
@@ -150,6 +169,14 @@ public class Level {
         batch.end();
     }
 
+    public ChaseCam getChaseCam() {
+        return chaseCam;
+    }
+
+    public void setChaseCam(ChaseCam chaseCam) {
+        this.chaseCam = chaseCam;
+    }
+
     public DelayedRemovalArray<Enemy> getEnemys() {
         return enemys;
     }
@@ -157,4 +184,25 @@ public class Level {
     public void spawnCollected(Vector2 position){
         collecteds.add(new Collected(position));
     }
+
+    public Aku getAku() {
+        return aku;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void point(){
+        score++;
+    }
+
 }

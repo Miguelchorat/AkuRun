@@ -5,34 +5,42 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.mygdx.akurun.overlays.AkurunHud;
+import com.mygdx.akurun.overlays.FinishMenu;
+import com.mygdx.akurun.overlays.PauseMenu;
 import com.mygdx.akurun.util.Assets;
 import com.mygdx.akurun.util.ChaseCam;
-import com.mygdx.akurun.util.Constants;
 
 public class GameplayScreen extends ScreenAdapter {
 
     SpriteBatch batch;
-    ExtendViewport viewport;
     private Level level;
     private ChaseCam chaseCam;
+    private AkurunHud hud;
+    private PauseMenu pauseMenu;
+    private FinishMenu finishMenu;
+    private State state;
 
     @Override
     public void show () {
 
         AssetManager am = new AssetManager();
         Assets.instance.init(am);
+        state = State.RUN;
         batch = new SpriteBatch();
-        viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
-        level = new Level();
-        chaseCam = new ChaseCam(viewport.getCamera(),level.aku);
+        hud = new AkurunHud(this);
+        pauseMenu = new PauseMenu(this);
+        finishMenu = new FinishMenu(this);
+        starNewLevel();
     }
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height,true);
+        hud.viewport.update(width,height,true);
+        pauseMenu.viewport.update(width,height,true);
+        finishMenu.viewport.update(width,height,true);
+        level.viewport.update(width, height, true);
     }
 
     @Override
@@ -42,13 +50,53 @@ public class GameplayScreen extends ScreenAdapter {
 
     @Override
     public void render (float delta) {
-        Gdx.gl.glClearColor(Color.SKY.r,Color.SKY.g,Color.SKY.b,Color.SKY.a);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        level.update(delta);
-        viewport.apply();
-        chaseCam.update(delta);
-        batch.setProjectionMatrix(viewport.getCamera().combined);
-        level.render(batch);
+
+        switch (state) {
+            case RUN:
+
+                level.update(delta);
+                chaseCam.update(delta);
+                Gdx.gl.glClearColor(Color.SKY.r,Color.SKY.g,Color.SKY.b,Color.SKY.a);
+                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+                level.render(batch);
+                hud.render(batch,level.getScore());
+                if(level.isGameOver()) {
+                    state = State.FINISH;
+                }
+                break;
+            case PAUSE:
+                pauseMenu.render(batch);
+                break;
+            case FINISH:
+                finishMenu.render(batch,level.getScore());
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void starNewLevel(){
+        level = new Level();
+        chaseCam = new ChaseCam();
+        chaseCam.camera = level.viewport.getCamera();
+        chaseCam.aku = level.getAku();
+        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public enum State
+    {
+        PAUSE,
+        RUN,
+        FINISH
     }
 }
+
 

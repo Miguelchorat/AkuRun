@@ -16,6 +16,6 @@ public class Spike {
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw(imagen,position.x,0,16,16);
+        batch.draw(imagen,position.x,0,128,16);
     }
 }
