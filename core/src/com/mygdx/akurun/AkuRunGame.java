@@ -7,8 +7,8 @@ public class AkuRunGame extends Game {
 
 	@Override
 	public void create() {
-		//showMenuScreen();
-		showGameplayScreen();
+		showMenuScreen();
+		//showGameplayScreen();
 	}
 
 	public void showMenuScreen(){
@@ -16,6 +16,6 @@ public class AkuRunGame extends Game {
 	}
 
 	public void showGameplayScreen(){
-		setScreen(new GameplayScreen());
+		setScreen(new GameplayScreen(this));
 	}
 }

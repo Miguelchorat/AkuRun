@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
-import static com.mygdx.akurun.util.Constants.RUN_LOOP_DURATION;
+import static com.mygdx.akurun.util.Constants.LOOP_DURATION;
 
 public class Assets implements Disposable, AssetErrorListener {
 
@@ -72,7 +72,7 @@ public class Assets implements Disposable, AssetErrorListener {
             appleFrames.add(atlas.findRegion(Constants.APPLE15));
             appleFrames.add(atlas.findRegion(Constants.APPLE16));
             appleFrames.add(atlas.findRegion(Constants.APPLE17));
-            appleAnimation = new Animation(RUN_LOOP_DURATION, appleFrames, Animation.PlayMode.LOOP);
+            appleAnimation = new Animation(LOOP_DURATION, appleFrames, Animation.PlayMode.LOOP);
 
             Array<TextureAtlas.AtlasRegion> collectedFrames = new Array<TextureAtlas.AtlasRegion>();
             collectedFrames.add(atlas.findRegion(Constants.COLLECTED1));
@@ -81,7 +81,7 @@ public class Assets implements Disposable, AssetErrorListener {
             collectedFrames.add(atlas.findRegion(Constants.COLLECTED4));
             collectedFrames.add(atlas.findRegion(Constants.COLLECTED5));
             collectedFrames.add(atlas.findRegion(Constants.COLLECTED6));
-            collectedAnimation = new Animation(RUN_LOOP_DURATION, collectedFrames, Animation.PlayMode.NORMAL);
+            collectedAnimation = new Animation(LOOP_DURATION, collectedFrames, Animation.PlayMode.NORMAL);
 
         }
     }
@@ -93,8 +93,9 @@ public class Assets implements Disposable, AssetErrorListener {
         public final TextureAtlas.AtlasRegion falling;
 
         public final Animation runningAnimation;
-        //public final Animation idleAnimation;
+        public final Animation idleAnimation;
         public final Animation appearingAnimation;
+
 
         public AkuAssets(TextureAtlas atlas){
             standingRight = atlas.findRegion(Constants.IDLE1);
@@ -114,9 +115,10 @@ public class Assets implements Disposable, AssetErrorListener {
             runningFrames.add(atlas.findRegion(Constants.RUN10));
             runningFrames.add(atlas.findRegion(Constants.RUN11));
             runningFrames.add(atlas.findRegion(Constants.RUN12));
-            runningAnimation = new Animation(RUN_LOOP_DURATION, runningFrames, Animation.PlayMode.LOOP);
+            runningAnimation = new Animation(LOOP_DURATION, runningFrames, Animation.PlayMode.LOOP);
 
-            /*Array<TextureAtlas.AtlasRegion> idleFrames = new Array<TextureAtlas.AtlasRegion>();
+
+            Array<TextureAtlas.AtlasRegion> idleFrames = new Array<TextureAtlas.AtlasRegion>();
             idleFrames.add(atlas.findRegion(Constants.IDLE1));
             idleFrames.add(atlas.findRegion(Constants.IDLE2));
             idleFrames.add(atlas.findRegion(Constants.IDLE3));
@@ -128,7 +130,7 @@ public class Assets implements Disposable, AssetErrorListener {
             idleFrames.add(atlas.findRegion(Constants.IDLE9));
             idleFrames.add(atlas.findRegion(Constants.IDLE10));
             idleFrames.add(atlas.findRegion(Constants.IDLE11));
-            idleAnimation = new Animation(Constants.IDLE_DURATION, idleFrames, Animation.PlayMode.LOOP);*/
+            idleAnimation = new Animation(LOOP_DURATION, idleFrames, Animation.PlayMode.LOOP);
 
             Array<TextureAtlas.AtlasRegion> appearingFrames = new Array<TextureAtlas.AtlasRegion>();
             appearingFrames.add(atlas.findRegion(Constants.APPEARING8));
@@ -139,7 +141,7 @@ public class Assets implements Disposable, AssetErrorListener {
             appearingFrames.add(atlas.findRegion(Constants.APPEARING3));
             appearingFrames.add(atlas.findRegion(Constants.APPEARING2));
             appearingFrames.add(atlas.findRegion(Constants.APPEARING1));
-            appearingAnimation = new Animation(RUN_LOOP_DURATION,appearingFrames, Animation.PlayMode.LOOP);
+            appearingAnimation = new Animation(LOOP_DURATION,appearingFrames, Animation.PlayMode.LOOP);
         }
     }
 
@@ -168,7 +170,7 @@ public class Assets implements Disposable, AssetErrorListener {
             runningFrames.add(atlas.findRegion(Constants.ENEMY_IDLE6));
             runningFrames.add(atlas.findRegion(Constants.ENEMY_IDLE7));
             runningFrames.add(atlas.findRegion(Constants.ENEMY_IDLE8));
-            runningAnimation = new Animation(RUN_LOOP_DURATION, runningFrames, Animation.PlayMode.LOOP);
+            runningAnimation = new Animation(LOOP_DURATION, runningFrames, Animation.PlayMode.LOOP);
 
         }
     }

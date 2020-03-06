@@ -53,7 +53,14 @@ public class PauseMenu {
             }
 
             if(restartBounds.contains(tmp.x,tmp.y)){
+                gameplayScreen.getTheme().dispose();
                 gameplayScreen.show();
+            }
+
+            if(exitBounds.contains(tmp.x,tmp.y)){
+                gameplayScreen.getTheme().dispose();
+                gameplayScreen.getGame().showMenuScreen();
+                gameplayScreen.dispose();
             }
         }
 

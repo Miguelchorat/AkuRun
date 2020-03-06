@@ -3,14 +3,14 @@ package com.mygdx.akurun;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.akurun.overlays.AkurunHud;
 import com.mygdx.akurun.overlays.FinishMenu;
 import com.mygdx.akurun.overlays.PauseMenu;
 import com.mygdx.akurun.util.Assets;
 import com.mygdx.akurun.util.ChaseCam;
+import com.mygdx.akurun.util.Constants;
 
 public class GameplayScreen extends ScreenAdapter {
 
@@ -21,10 +21,15 @@ public class GameplayScreen extends ScreenAdapter {
     private PauseMenu pauseMenu;
     private FinishMenu finishMenu;
     private State state;
+    private AkuRunGame game;
+    private Sound theme;
+
+    public GameplayScreen(AkuRunGame game){
+        this.game = game;
+    }
 
     @Override
     public void show () {
-
         AssetManager am = new AssetManager();
         Assets.instance.init(am);
         state = State.RUN;
@@ -56,8 +61,6 @@ public class GameplayScreen extends ScreenAdapter {
 
                 level.update(delta);
                 chaseCam.update(delta);
-                Gdx.gl.glClearColor(Color.SKY.r,Color.SKY.g,Color.SKY.b,Color.SKY.a);
-                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
                 level.render(batch);
                 hud.render(batch,level.getScore());
                 if(level.isGameOver()) {
@@ -81,6 +84,8 @@ public class GameplayScreen extends ScreenAdapter {
         chaseCam.camera = level.viewport.getCamera();
         chaseCam.aku = level.getAku();
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        theme = Gdx.audio.newSound(Gdx.files.internal(Constants.THEME_SONG));
+        theme.loop(Constants.VOLUME);
     }
 
     public void setState(State state) {
@@ -89,6 +94,14 @@ public class GameplayScreen extends ScreenAdapter {
 
     public State getState() {
         return state;
+    }
+
+    public AkuRunGame getGame() {
+        return game;
+    }
+
+    public Sound getTheme() {
+        return theme;
     }
 
     public enum State

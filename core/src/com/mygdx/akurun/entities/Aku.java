@@ -22,7 +22,7 @@ public class Aku {
     JumpState jumpState; //Diferentes estados de salto que tiene
 
     long jumpStartTime; //Tiempo en el que salto
-    long runStartTime; //Tiempo en el que empezo a correr
+    long startTime; //Tiempo en el que empezo a correr
     boolean jump; //Comprobar si puede realizar otro salto adicional
     boolean appearing; //Comprobar si ha aparecido
     Level level; //Nivel de partida el que esta jugando
@@ -168,7 +168,7 @@ public class Aku {
      */
     private void moveRight(float delta) {
         if (jumpState == JumpState.GROUNDED) {
-            runStartTime = TimeUtils.nanoTime();
+            startTime = TimeUtils.nanoTime();
         }
         position.x += delta * Constants.AKU_MOVE_SPEED;
     }
@@ -209,8 +209,8 @@ public class Aku {
         }
     }
     /*
-            Metodo encargado de comprobar si el personaje esta sobre la plataforma indicada
-         */
+        Metodo encargado de comprobar si el personaje esta sobre la plataforma indicada
+    */
     boolean landedOnPlatform(Platform platform) {
 
         boolean leftFootIn = false;
@@ -232,15 +232,15 @@ public class Aku {
 
     public void render(SpriteBatch batch){
 
-        float runningSeconds = MathUtils.nanoToSec * (TimeUtils.nanoTime() - runStartTime);
+        float runningSeconds = MathUtils.nanoToSec * (TimeUtils.nanoTime() - startTime);
         TextureRegion region = Assets.instance.akuAssets.runningAnimation.getKeyFrame(runningSeconds);
 
         /*
             Comprobación del estado del salto del personaje para dibujar la animación
          */
-        if (jumpState == JumpState.JUMPING ) {
+        if (jumpState == JumpState.JUMPING) {
             region = Assets.instance.akuAssets.jumpingRight;
-        } else if (jumpState == JumpState.FALLING || jumpState == JumpState.RECOILING) {
+        } else if (jumpState == JumpState.FALLING|| jumpState == JumpState.RECOILING) {
             region = Assets.instance.akuAssets.falling;
         }
         batch.draw(

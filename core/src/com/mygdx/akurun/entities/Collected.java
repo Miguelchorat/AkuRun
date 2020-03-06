@@ -1,5 +1,7 @@
 package com.mygdx.akurun.entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -12,10 +14,13 @@ public class Collected{
 
     public Vector2 position; //Posicion de la recolecta de la manzana
     private long startTime; //Comienzo de la animacion
+    private Sound sound;
 
     public Collected(Vector2 position) {
         this.position = position;
         startTime = TimeUtils.nanoTime();
+        sound = Gdx.audio.newSound(Gdx.files.internal(Constants.COIN_SONG));
+        sound.play(Constants.VOLUME);
     }
 
     public void render(SpriteBatch batch) {
