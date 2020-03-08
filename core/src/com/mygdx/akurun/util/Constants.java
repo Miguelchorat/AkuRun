@@ -120,7 +120,7 @@ public class Constants {
     public static final String EXIT_HUD = "menu/exit.png";
     public static final String PAUSE_HUD = "menu/Pause.png";
     public static final String SCORE_HUD = "menu/score.png";
-    public static final String FONT_HUD = "font/font.otf";
+    public static final String FONT_HUD = "font/font.ttf";
     public static final String WINDOW_HUD = "menu/window.png";
     public static final String HEADER_HUD = "menu/header.png";
     public static final String HEADER_LOSE_HUD = "menu/lose.png";

@@ -41,7 +41,7 @@ public class MenuScreen extends ScreenAdapter {
         theme = Gdx.audio.newSound(Gdx.files.internal(Constants.THEME_SONG));
         theme.loop(Constants.VOLUME);
         batch = new SpriteBatch();
-        viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
+        viewport = new ExtendViewport(Constants.WORLD_SIZE*5, Constants.WORLD_SIZE*5);
         background = new Background();
         play = new Texture(Constants.PLAY_HUD);
         sound = new Texture(Constants.SOUND);

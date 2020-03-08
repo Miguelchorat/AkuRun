@@ -86,12 +86,40 @@ public class Level {
             enemys.add(new Enemy(new Vector2(aku.position.x+Constants.WORLD_SIZE*4,95),aku));
             enemyActive=true;
         }
+    }
+
+    public void generator2() {
+        enemyActive = false;
+        left += MathUtils.random(55, 125);
+        top = MathUtils.random(25, 85);
+        width = MathUtils.random(15,75);
+        height = MathUtils.random(15, 65);
+        Platform newPlatform = new Platform(left,top,width,height);
+        platforms.add(newPlatform);
+
+        if (spikeCount < 6){
+            spikes.add(new Spike(newSpike, 0));
+            newSpike += 128;
+            spikeCount++;
+            if(spikeCount>5)
+                enemyActive=true;
+        }
+
+        Apple apple = new Apple((left-(int)Constants.APPLE_CENTER/2)+(width/2),top);
+        apples.add(apple);
+
+
+        if(enemyActive ){
+            enemys.add(new Enemy(new Vector2(aku.position.x+Constants.WORLD_SIZE*2,aku.position.y),aku));
+            enemyActive = false;
+            valorAux = 0;
+        }
 
     }
 
     public void update(float delta){
 
-        generator();
+        generator2();
 
         platforms.begin();
         apples.begin();
