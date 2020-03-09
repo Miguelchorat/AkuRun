@@ -63,8 +63,6 @@ public class PauseMenu {
                 gameplayScreen.dispose();
             }
         }
-
         batch.end();
-
     }
 }

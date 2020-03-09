@@ -47,8 +47,8 @@ public class MenuScreen extends ScreenAdapter {
         sound = new Texture(Constants.SOUND);
         generator = new FreeTypeFontGenerator(Gdx.files.internal(Constants.FONT_HUD));
         parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 42;
-        parameter.borderWidth = 2f;
+        parameter.size = 144;
+        parameter.borderWidth = 5f;
         parameter.borderColor= Color.BLACK;
         font = generator.generateFont(parameter);
         generator.dispose();
@@ -67,15 +67,15 @@ public class MenuScreen extends ScreenAdapter {
         batch.setProjectionMatrix(viewport.getCamera().combined);
         background.renderMenu(batch);
         batch.begin();
-        font.draw(batch,"Aku-Run",viewport.getWorldWidth()/4.6f,viewport.getWorldHeight()/1.3f);
-        batch.draw(play,viewport.getWorldWidth()/2.3f,viewport.getWorldHeight()/5f,play.getWidth()/5,play.getHeight()/5);
-        batch.draw(sound,viewport.getWorldWidth()/1.1f,viewport.getWorldHeight()/1.2f,play.getWidth()/8,play.getHeight()/8);
+        font.draw(batch,"Aku-Run",viewport.getWorldWidth()/3f,viewport.getWorldHeight()/1.3f);
+        batch.draw(play,viewport.getWorldWidth()/2.3f,viewport.getWorldHeight()/5f,play.getWidth(),play.getHeight());
+        batch.draw(sound,viewport.getWorldWidth()/1.1f,viewport.getWorldHeight()/1.2f,play.getWidth()/2,play.getHeight()/2);
 
         if(Gdx.input.justTouched()){
             Vector3 tmp = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
             viewport.getCamera().unproject(tmp);
-            Rectangle playBounds = new Rectangle(viewport.getWorldWidth()/2.3f,viewport.getWorldHeight()/5f,play.getWidth()/5,play.getHeight()/5);
-            Rectangle soundBounds = new Rectangle(viewport.getWorldWidth()/1.1f,viewport.getWorldHeight()/1.2f,play.getWidth()/8,play.getHeight()/8);
+            Rectangle playBounds = new Rectangle(viewport.getWorldWidth()/2.3f,viewport.getWorldHeight()/5f,play.getWidth(),play.getHeight());
+            Rectangle soundBounds = new Rectangle(viewport.getWorldWidth()/1.1f,viewport.getWorldHeight()/1.2f,play.getWidth()/2,play.getHeight()/2);
 
             if(playBounds.contains(tmp.x,tmp.y)){
                 game.showGameplayScreen();

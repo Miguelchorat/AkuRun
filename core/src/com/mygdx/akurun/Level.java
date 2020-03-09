@@ -29,6 +29,7 @@ public class Level {
     DelayedRemovalArray<Collected> collecteds;
     DelayedRemovalArray<Enemy> enemys;
     int left;
+    int left2;
     int top;
     int width;
     int height;
@@ -90,11 +91,11 @@ public class Level {
 
     public void generator2() {
         enemyActive = false;
-        left += MathUtils.random(55, 125);
-        top = MathUtils.random(25, 85);
-        width = MathUtils.random(15,75);
-        height = MathUtils.random(15, 65);
-        Platform newPlatform = new Platform(left,top,width,height);
+        left2 += MathUtils.random(55, 125);
+        int top2 = MathUtils.random(25, 85);
+        int width2 = MathUtils.random(15,75);
+        int height2 = MathUtils.random(15, 65);
+        Platform newPlatform = new Platform(left2,top2,width2,height2);
         platforms.add(newPlatform);
 
         if (spikeCount < 6){
@@ -119,8 +120,12 @@ public class Level {
 
     public void update(float delta){
 
-        generator2();
-
+        if(score<5){
+            generator();
+            left2 = left;
+        }else {
+            generator2();
+        }
         platforms.begin();
         apples.begin();
         spikes.begin();
@@ -195,14 +200,6 @@ public class Level {
         }
         aku.render(batch);
         batch.end();
-    }
-
-    public ChaseCam getChaseCam() {
-        return chaseCam;
-    }
-
-    public void setChaseCam(ChaseCam chaseCam) {
-        this.chaseCam = chaseCam;
     }
 
     public DelayedRemovalArray<Enemy> getEnemys() {

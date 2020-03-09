@@ -63,12 +63,12 @@ public class Background {
         sourceX1+=2;
 
         batch.begin();
-        batch.draw(background1,0,0,Constants.WORLD_SIZE*6,Constants.WORLD_SIZE,0,0, background1.getWidth(), background1.getHeight(),false,false);
-        batch.draw(background2,0,0,Constants.WORLD_SIZE*2,Constants.WORLD_SIZE,0,0, background2.getWidth()*4, background2.getHeight(),false,false);
-        batch.draw(background3,0,0,Constants.WORLD_SIZE*2,Constants.WORLD_SIZE,sourceX,0, background3.getWidth()*4, background3.getHeight(),false,false);
-        batch.draw(background4,0,0,Constants.WORLD_SIZE*2,Constants.WORLD_SIZE,sourceX1,0, background4.getWidth()*4, background4.getHeight(),false,false);
+        batch.draw(background1,0,0,Constants.WORLD_SIZE*10,Constants.WORLD_SIZE*6,0,0, background1.getWidth()*5, background1.getHeight(),false,false);
+        batch.draw(background2,0,0,Constants.WORLD_SIZE*10,Constants.WORLD_SIZE*6,0,0, background2.getWidth()*5, background2.getHeight(),false,false);
+        batch.draw(background3,0,0,Constants.WORLD_SIZE*10,Constants.WORLD_SIZE*6,sourceX,0, background3.getWidth()*5, background3.getHeight(),false,false);
+        batch.draw(background4,0,0,Constants.WORLD_SIZE*10,Constants.WORLD_SIZE*6,sourceX1,0, background4.getWidth()*5, background4.getHeight(),false,false);
 
-        batch.draw(sun,Constants.WORLD_SIZE/6,Constants.WORLD_SIZE/1.5f,Constants.WORLD_SIZE/4,Constants.WORLD_SIZE/4);
+        batch.draw(sun,Constants.WORLD_SIZE,Constants.WORLD_SIZE*3,Constants.WORLD_SIZE,Constants.WORLD_SIZE);
         batch.end();
     }
 }

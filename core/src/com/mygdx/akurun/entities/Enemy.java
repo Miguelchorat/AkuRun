@@ -22,11 +22,11 @@ public class Enemy {
 
     public void update(float delta){
         position.x -= Constants.ENEMY_MOVEMENT_SPEED * delta;
-        if(position.y>aku.position.y){
+        /*if(position.y>aku.position.y){
             position.y-=Constants.ENEMY_MOVEMENT_SPEED * delta/2;
         }else if(position.y<aku.position.y){
             position.y+=Constants.ENEMY_MOVEMENT_SPEED * delta/2;
-        }
+        }*/
 
     }
 
