@@ -42,7 +42,7 @@ public class MenuScreen extends ScreenAdapter {
         AssetManager am = new AssetManager();
         Assets.instance.init(am);
         soundAm = new AssetManager();
-        chooseMusic();
+
         batch = new SpriteBatch();
         viewport = new ExtendViewport(Constants.WORLD_SIZE*5, Constants.WORLD_SIZE*5);
         background = new Background();
@@ -55,6 +55,7 @@ public class MenuScreen extends ScreenAdapter {
         parameter.borderColor= Color.BLACK;
         font = generator.generateFont(parameter);
         generator.dispose();
+        chooseMusic();
         Constants.VOLUME = 1f;
         music = true;
     }
