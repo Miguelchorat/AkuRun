@@ -3,6 +3,7 @@ package com.mygdx.akurun;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -29,6 +30,8 @@ public class MenuScreen extends ScreenAdapter {
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private Sound theme;
     private boolean music;
+    private AssetManager soundAm;
+    private long idSound;
 
     public MenuScreen(AkuRunGame game) {
         this.game = game;
@@ -38,8 +41,8 @@ public class MenuScreen extends ScreenAdapter {
     public void show() {
         AssetManager am = new AssetManager();
         Assets.instance.init(am);
-        theme = Gdx.audio.newSound(Gdx.files.internal(Constants.THEME_SONG));
-        theme.loop(Constants.VOLUME);
+        soundAm = new AssetManager();
+        chooseMusic();
         batch = new SpriteBatch();
         viewport = new ExtendViewport(Constants.WORLD_SIZE*5, Constants.WORLD_SIZE*5);
         background = new Background();
@@ -87,18 +90,26 @@ public class MenuScreen extends ScreenAdapter {
                     sound = new Texture(Constants.SOUND_OFF);
                     music = false;
                     Constants.VOLUME = 0f;
-                    theme.dispose();
                 } else{
                     sound = new Texture(Constants.SOUND);
                     music = true;
                     Constants.VOLUME = 0.5f;
-                    theme = Gdx.audio.newSound(Gdx.files.internal(Constants.THEME_SONG));
                 }
-                theme.loop(Constants.VOLUME);
+                theme.setVolume(idSound,Constants.VOLUME);
             }
         }
 
         batch.end();
 
+    }
+
+    public void chooseMusic(){
+        soundAm.load(Constants.THEME_SONG, Sound.class);
+        soundAm.finishLoading();
+        if (soundAm.isLoaded(Constants.THEME_SONG)) {
+            theme = soundAm.get(Constants.THEME_SONG, Sound.class);
+            idSound = theme.loop(Constants.VOLUME);
+
+        }
     }
 }

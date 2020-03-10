@@ -23,6 +23,7 @@ public class GameplayScreen extends ScreenAdapter {
     private State state;
     private AkuRunGame game;
     private Sound theme;
+    private AssetManager soundAm;
 
     public GameplayScreen(AkuRunGame game){
         this.game = game;
@@ -32,6 +33,7 @@ public class GameplayScreen extends ScreenAdapter {
     public void show () {
         AssetManager am = new AssetManager();
         Assets.instance.init(am);
+        soundAm = new AssetManager();
         state = State.RUN;
         batch = new SpriteBatch();
         hud = new AkurunHud(this);
@@ -84,8 +86,7 @@ public class GameplayScreen extends ScreenAdapter {
         chaseCam.camera = level.viewport.getCamera();
         chaseCam.aku = level.getAku();
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        theme = Gdx.audio.newSound(Gdx.files.internal(Constants.THEME_SONG));
-        theme.loop(Constants.VOLUME);
+        chooseMusic();
     }
 
     public void setState(State state) {
@@ -109,6 +110,15 @@ public class GameplayScreen extends ScreenAdapter {
         PAUSE,
         RUN,
         FINISH
+    }
+
+    public void chooseMusic(){
+        soundAm.load(Constants.THEME_SONG, Sound.class);
+        soundAm.finishLoading();
+        if (soundAm.isLoaded(Constants.THEME_SONG)) {
+            theme = soundAm.get(Constants.THEME_SONG, Sound.class);
+            theme.loop(Constants.VOLUME);
+        }
     }
 }
 

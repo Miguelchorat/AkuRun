@@ -1,5 +1,6 @@
 package com.mygdx.akurun.overlays;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -64,5 +65,9 @@ public class PauseMenu {
             }
         }
         batch.end();
+    }
+
+    private boolean onMobile() {
+        return Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS;
     }
 }

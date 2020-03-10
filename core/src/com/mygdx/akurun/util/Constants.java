@@ -33,6 +33,7 @@ public class Constants {
     public static final Vector2 KNOCKBACK_VELOCITY = new Vector2(200, 200);
     public static final int SPIKE_SIZE=20;
     public static final String TERRAIN = "terrain";
+    public static final int NEXT = 7;
 
     //AKU
     public static final String JUMP = "jump";

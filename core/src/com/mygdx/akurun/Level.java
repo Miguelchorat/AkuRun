@@ -19,7 +19,6 @@ import com.mygdx.akurun.util.Constants;
 
 public class Level {
 
-    ChaseCam chaseCam;
     public Viewport viewport;
     private Aku aku;
     Background background;
@@ -29,7 +28,6 @@ public class Level {
     DelayedRemovalArray<Collected> collecteds;
     DelayedRemovalArray<Enemy> enemys;
     int left;
-    int left2;
     int top;
     int width;
     int height;
@@ -39,19 +37,22 @@ public class Level {
     private boolean gameOver;
     private int score;
     private int spikeCount;
-
+    private int platformCount;
+    private boolean nextLevel;
     public Level(){
         init();
     }
 
     public void init() {
         viewport = new ExtendViewport(Constants.WORLD_SIZE, Constants.WORLD_SIZE);
-        score = 0;
         aku = new Aku(new Vector2(170,200),this);
         enemyActive=false;
+        nextLevel = false;
         background = new Background(aku);
         valorAux = 0;
         newSpike = 0;
+        platformCount = 0;
+        score = 0;
         left = 0;
         top = 0;
         width = 0;
@@ -60,28 +61,40 @@ public class Level {
         apples = new DelayedRemovalArray<Apple>();
         collecteds = new DelayedRemovalArray<Collected>();
         enemys = new DelayedRemovalArray<Enemy>();
-        spikes = new DelayedRemovalArray<Spike>(false,16);
+        spikes = new DelayedRemovalArray<Spike>(false,10);
         spikeCount = 0;
         gameOver = false;
     }
 
     public void generator() {
 
-        left += MathUtils.random(175, 185);
-        top = MathUtils.random(50, 75);
-        width = MathUtils.random(75, 105);
-
-        if (spikeCount < 6){
+        if (spikeCount < 7) {
             spikes.add(new Spike(newSpike, 0));
-             newSpike += 128;
-             spikeCount++;
+            newSpike += 128;
+            spikeCount++;
         }
 
-        Platform newPlatform = new Platform(left,top,width,height);
-        Apple apple = new Apple((left-(int)Constants.APPLE_CENTER/2)+(width/2),top);
-        platforms.add(newPlatform);
-        apples.add(apple);
-
+        if(platformCount<12){
+            if(score<Constants.NEXT) {
+                left += MathUtils.random(175, 185);
+                top = MathUtils.random(50, 75);
+                width = MathUtils.random(75, 105);
+                Platform newPlatform = new Platform(left, top, width, height);
+                Apple apple = new Apple((left - (int) Constants.APPLE_CENTER / 2) + (width / 2), top);
+                platforms.add(newPlatform);
+                apples.add(apple);
+            } else {
+                left += MathUtils.random(55, 125);
+                top = MathUtils.random(25, 85);
+                width = MathUtils.random(15,75);
+                height = MathUtils.random(15, 65);
+                Platform newPlatform = new Platform(left,top,width,height);
+                platforms.add(newPlatform);
+                Apple apple = new Apple((left-(int)Constants.APPLE_CENTER/2)+(width/2),top);
+                apples.add(apple);
+            }
+            platformCount++;
+        }
         valorAux = MathUtils.random(0,(int)Constants.WORLD_SIZE/2);
         if(valorAux==1 && !enemyActive ){
             enemys.add(new Enemy(new Vector2(aku.position.x+Constants.WORLD_SIZE*4,95),aku));
@@ -89,43 +102,10 @@ public class Level {
         }
     }
 
-    public void generator2() {
-        enemyActive = false;
-        left2 += MathUtils.random(55, 125);
-        int top2 = MathUtils.random(25, 85);
-        int width2 = MathUtils.random(15,75);
-        int height2 = MathUtils.random(15, 65);
-        Platform newPlatform = new Platform(left2,top2,width2,height2);
-        platforms.add(newPlatform);
-
-        if (spikeCount < 6){
-            spikes.add(new Spike(newSpike, 0));
-            newSpike += 128;
-            spikeCount++;
-            if(spikeCount>5)
-                enemyActive=true;
-        }
-
-        Apple apple = new Apple((left-(int)Constants.APPLE_CENTER/2)+(width/2),top);
-        apples.add(apple);
-
-
-        if(enemyActive ){
-            enemys.add(new Enemy(new Vector2(aku.position.x+Constants.WORLD_SIZE*2,aku.position.y),aku));
-            enemyActive = false;
-            valorAux = 0;
-        }
-
-    }
 
     public void update(float delta){
 
-        if(score<5){
-            generator();
-            left2 = left;
-        }else {
-            generator2();
-        }
+        generator();
         platforms.begin();
         apples.begin();
         spikes.begin();
@@ -141,6 +121,7 @@ public class Level {
         for (int i = 0; i < platforms.size; i++) {
             if (platforms.get(i).getLeft() < aku.position.x - Constants.WORLD_SIZE*2) {
                 platforms.removeIndex(i);
+                platformCount--;
             }
 
         }for (int i = 0; i < apples.size; i++) {

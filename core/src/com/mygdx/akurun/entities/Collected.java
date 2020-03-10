@@ -1,6 +1,6 @@
 package com.mygdx.akurun.entities;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -15,12 +15,13 @@ public class Collected{
     public Vector2 position; //Posicion de la recolecta de la manzana
     private long startTime; //Comienzo de la animacion
     private Sound sound;
+    private AssetManager soundAm;
 
     public Collected(Vector2 position) {
         this.position = position;
+        soundAm = new AssetManager();
         startTime = TimeUtils.nanoTime();
-        sound = Gdx.audio.newSound(Gdx.files.internal(Constants.COIN_SONG));
-        sound.play(Constants.VOLUME);
+        chooseMusic();
     }
 
     public void render(SpriteBatch batch) {
@@ -48,5 +49,14 @@ public class Collected{
     public boolean isFinished() {
         final float elapsedTime = MathUtils.nanoToSec * (TimeUtils.nanoTime()-startTime);
         return Assets.instance.appleAssets.collectedAnimation.isAnimationFinished(elapsedTime);
+    }
+
+    public void chooseMusic(){
+        soundAm.load(Constants.COIN_SONG, Sound.class);
+        soundAm.finishLoading();
+        if (soundAm.isLoaded(Constants.COIN_SONG)) {
+            sound = soundAm.get(Constants.COIN_SONG, Sound.class);
+            sound.play(Constants.VOLUME);
+        }
     }
 }
